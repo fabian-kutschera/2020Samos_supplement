@@ -1,0 +1,11 @@
+!Switch
+[T_n]: !EvalModel
+    parameters: [rho, z]
+    model: !Switch
+        [rho]: !Include samos_material_noWL.yaml
+        [z]: !FunctionMap
+          map:
+            z: return z;
+    components: !FunctionMap
+       map:
+          T_n: return min(-5000000, (rho-2300)*9.8*z);

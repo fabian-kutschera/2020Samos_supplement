@@ -1,0 +1,42 @@
+!Switch
+
+[mu_d]: !Include mu_d.yaml
+[mu_s]: !Include mu_s.yaml
+[d_c]: !Include d_c.yaml
+[cohesion]: !Include cohesion.yaml
+[T_n]: !Include T_n.yaml
+
+[T_s, T_d]: !EvalModel
+    parameters: [T_n, Ts0, Td0, Pn0, mu_d]
+    model: !Switch
+        [T_n]: !Include T_n.yaml
+        [Ts0, Td0, Pn0]: !Include Fra_fault_stress_change_Samos.yaml
+        [mu_d]: !Include mu_d.yaml
+    components: !LuaMap
+        returns: [T_s, T_d]
+        function: |
+            function f(x)
+              ts = 0.
+              td = (x["mu_d"] * x["T_n"]) - x["Td0"]
+              return {
+                T_s = ts,
+                T_d = td
+              }
+            end
+
+[forced_rupture_time]: !FunctionMap
+  map:
+    forced_rupture_time: |
+      r = sqrt(pow(x-49848.809217, 2.0) + pow(y-16793.833262, 2.0) + pow(z+6350, 2.0));
+      r_crit = 1500.0;
+      Vs = 3800.0;
+      if (r <= r_crit) {
+        return r/(0.7*Vs)+(0.081.0*r_crit/(0.7.0*Vs))*(1.0/(1.0-pow(r/r_crit, 2.0))-1.0);
+      }
+      return 1000000000.0;
+
+[Tnuc_n, Tnuc_s, Tnuc_d]: !ConstantMap
+    map:
+        Tnuc_n: 0
+        Tnuc_s: 0
+        Tnuc_d: 0

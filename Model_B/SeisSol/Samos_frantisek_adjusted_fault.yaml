@@ -1,0 +1,34 @@
+!Switch
+[strike_slip, dip_slip, rupture_onset, tau_S, tau_R, rupture_rise_time]: !EvalModel
+    parameters: [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]
+    model: !Switch
+        [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]: !AffineMap
+              matrix:
+                ua: [-0.9958740467789645, -0.0907462558571351, 0.0]
+                ub: [0.06963219135524702, -0.762695724677607, 0.6429981255692478]
+              translation:
+                ua: 79913.50124701673
+                ub: 26514.39182841975
+              components: !Any
+                - !ASAGI
+                    file: Samos_frantisek_adjusted_10_cubic.nc
+                    parameters: [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]
+                    var: data
+                    interpolation: linear
+                - !ConstantMap
+                  map:
+                    strike_slip: 0.0
+                    dip_slip:    0.0
+                    rupture_onset:    0.0
+                    acc_time:  1e100
+                    effective_rise_time:  2e100
+    components: !FunctionMap
+       map:
+          #Note the minus on strike_slip to acknowledge the different convention of SeisSol (T_s>0 means right-lateral)
+          strike_slip: return -strike_slip;
+          dip_slip: return dip_slip;
+          rupture_onset: return rupture_onset;
+          tau_S: return acc_time/1.27;
+          tau_R: return effective_rise_time - 2.*acc_time/1.27;
+          rupture_rise_time: return effective_rise_time;
+        

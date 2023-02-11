@@ -1,0 +1,32 @@
+!Switch
+[Ts0,Td0,Pn0]: !EvalModel
+    parameters: [tso, tdo, pno]
+    model: !Switch
+        [tso, tdo, pno]: !Any
+          components:
+            - !GroupFilter
+               groups: 3
+               components: !AffineMap
+                    matrix:
+                      ua: [-0.9958740467789645, -0.0907462558571351, 0.0]
+                      ub: [0.06963219135524702, -0.762695724677607, 0.6429981255692478]
+                    translation:
+                      ua: 79913.50124701673
+                      ub: 26514.39182841975
+                    components: !Any
+                      - !ASAGI
+                          file: Fra_v4_tso_tdo_pno_ASAGI.nc
+                          parameters: [tso, tdo, pno]
+                          var: data
+                          interpolation: linear
+                      - !ConstantMap
+                        map:
+                          tso: 0.0
+                          tdo: 0.0
+                          pno: 0.0 
+    components: !FunctionMap
+       map:
+          Ts0: return -tso;
+          Td0: return tdo;
+          Pn0: return pno;
+        

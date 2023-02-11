@@ -1,0 +1,1 @@
+python /import/freenas-m-05-seissol/kutschera/HIWI/SeisSol/SeisSol_clone/preprocessing/science/kinematic_models/generate_FL33_input_files.py Samos_frantisek_adjusted.srf --generate_ts_yaml '+proj=tmerc +datum=WGS84 +k=0.9996 +lon_0=26.25 +lat_0=37.75' --write_paraview --spatial_zoom 10 --interpolation_method cubic

@@ -1,0 +1,34 @@
+!Switch
+[strike_slip, dip_slip, rupture_onset, tau_S, tau_R, rupture_rise_time]: !EvalModel
+    parameters: [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]
+    model: !Switch
+        [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]: !AffineMap
+              matrix:
+                ua: [-0.9999802812354174, -0.006279899707447305, 0.0]
+                ub: [0.005009900725918649, -0.7985471624608284, 0.6019113973173094]
+              translation:
+                ua: 103931.54917899476
+                ub: 40612.38129771323
+              components: !Any
+                - !ASAGI
+                    file: Samos_kin_Ryo_Fabi_10_o1.nc
+                    parameters: [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]
+                    var: data
+                    interpolation: linear
+                - !ConstantMap
+                  map:
+                    strike_slip: 0.0
+                    dip_slip:    0.0
+                    rupture_onset:    0.0
+                    acc_time:  1e100
+                    effective_rise_time:  2e100
+    components: !FunctionMap
+       map:
+          #Note the minus on strike_slip to acknowledge the different convention of SeisSol (T_s>0 means right-lateral)
+          strike_slip: return -strike_slip;
+          dip_slip: return dip_slip;
+          rupture_onset: return rupture_onset;
+          tau_S: return acc_time/1.27;
+          tau_R: return effective_rise_time - 2.*acc_time/1.27;
+          rupture_rise_time: return effective_rise_time;
+        
