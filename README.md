@@ -4,5 +4,7 @@ This repository contains supplementary material and input files for the MSc thes
 
 Open-source software was used for the earthquake-tsunami modeling:
 
-- SeisSol, version: 202103_Sumatra-1139-g00bbf63e , available from https://github.com/SeisSol
+- SeisSol, version: 202103_Sumatra-1139-g00bbf63e, available from https://github.com/SeisSol
 - GeoClaw, version: 5.9.0, available from https://github.com/clawpack
+
+Please cite accordingly: [![DOI](https://zenodo.org/badge/600379529.svg)](https://zenodo.org/badge/latestdoi/600379529)
