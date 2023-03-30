@@ -9,7 +9,7 @@ Open-source software was used for the earthquake-tsunami modeling:
 
 Please cite accordingly: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7760418.svg)](https://doi.org/10.5281/zenodo.7760418)
 
-<h2 style="text-align: center;">Flowchart</h2>
+## Flowchart
 
 ```mermaid
 flowchart TD
